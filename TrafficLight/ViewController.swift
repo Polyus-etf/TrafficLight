@@ -19,45 +19,36 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        greenLightView.layer.cornerRadius = 75
-        yellowLightView.layer.cornerRadius = 75
-        redLightView.layer.cornerRadius = 75
-        startButton.layer.cornerRadius = 10
-        greenLightView.alpha = 0.3
-        yellowLightView.alpha = 0.3
-        redLightView.alpha = 0.3
-    }
-
-    @IBAction func nextButton() {
-        startButton.setTitle("NEXT", for: .normal)
-        stateTrafficLight = switchTrafficLight(state: stateTrafficLight)
-        
-        switch stateTrafficLight {
-        case 1:
-            greenLightView.alpha = 1.0
-            yellowLightView.alpha = 0.3
-            redLightView.alpha = 0.3
-        case 2:
-            greenLightView.alpha = 0.3
-            yellowLightView.alpha = 1.0
-            redLightView.alpha = 0.3
-        case 3:
-            greenLightView.alpha = 0.3
-            yellowLightView.alpha = 0.3
-            redLightView.alpha = 1.0
-        default:
-            greenLightView.alpha = 0.3
-            yellowLightView.alpha = 0.3
-            redLightView.alpha = 0.3
-        }
+        greenLightView.layer.cornerRadius = greenLightView.frame.height / 2
+        yellowLightView.layer.cornerRadius = yellowLightView.frame.height / 2
+        redLightView.layer.cornerRadius = redLightView.frame.height / 2
+        startButton.layer.cornerRadius = 20
+        setColorTrafficLight(green: false, yellow: false, red: false)
     }
     
-    private func switchTrafficLight(state: Int) -> Int {
-        var stateTrafficLight = state + 1
-        if stateTrafficLight == 4 {
-            stateTrafficLight = 1
+    @IBAction func nextButton() {
+        startButton.setTitle("NEXT", for: .normal)
+        switchTrafficLight()
+
+        switch stateTrafficLight {
+        case 1:
+            setColorTrafficLight(green: true, yellow: false, red: false)
+        case 2:
+            setColorTrafficLight(green: false, yellow: true, red: false)
+        case 3:
+            setColorTrafficLight(green: false, yellow: false, red: true)
+        default:
+            setColorTrafficLight(green: false, yellow: false, red: false)
         }
-        return stateTrafficLight
+    }
+
+    private func switchTrafficLight() {
+        self.stateTrafficLight = stateTrafficLight < 3 ? stateTrafficLight + 1 : 1
+    }
+
+    private func setColorTrafficLight(green: Bool, yellow: Bool, red: Bool) {
+        greenLightView.alpha = green ? 1.0 : 0.3
+        yellowLightView.alpha = yellow ? 1.0 : 0.3
+        redLightView.alpha = red ? 1.0 : 0.3
     }
 }
-
